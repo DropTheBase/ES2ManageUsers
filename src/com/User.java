@@ -87,6 +87,14 @@ public class User {
         return "id: " + this.id + " first_name: " + this.first_name + " last_name: " + this.last_name + " email: " + this.email + " avatar: " + this.avatar;
     }
 
+
+    public boolean equals(User user){
+
+        return this.id == user.getId()&& this.first_name.equals(user.getFirst_name()) && this.last_name.equals(user.getLast_name()) && this.avatar.equals(user.getAvatar()) && this.email.equals(user.getEmail());
+
+    }
+
+
     public JSONObject toJson (){
         JSONObject json = new JSONObject();
         json.put("id", this.id);
