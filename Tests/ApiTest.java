@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.List;
 
-public class Stub {
+public class ApiTest {
 
     @Test
     public void textListUsers(){
@@ -23,4 +23,6 @@ public class Stub {
 
         assert API.createUser(user);
     }
+
+
 }
