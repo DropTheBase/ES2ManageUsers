@@ -1,3 +1,4 @@
+import com.Resource;
 import com.Stub;
 import com.User;
 import com.sun.org.apache.bcel.internal.generic.JsrInstruction;
@@ -326,9 +327,36 @@ public class UnitTests {
     public void testListAllResourcesSuccess(){
         Stub stub = new Stub();
 
-        ArrayList<JSONObject> jsonArrays = new ArrayList<JSONObject>();
+        JSONArray jsonArrays = new JSONArray();
 
-        Assertions.assertNotNull(jsonArrays);
+
+        Resource resource1 = new Resource(1,"cerulean",2000,"#98B2D1","15-4020");
+
+        Resource resource2 = new Resource(2,"fuchsia rose",2001,"#C74375","17-2031");
+
+        Resource resource3 = new Resource(3,"true red",2002,"#BF1932","19-1664");
+
+        Resource resource4 = new Resource(4,"aqua sky",2003,"#7BC4C4","14-4811");
+
+        Resource resource5 = new Resource(5,"tigerlily",2004,"#E2583E","17-1456");
+
+        Resource resource6 = new Resource(6,"blue turquoise",2005,"#53B0AE","15-5217");
+
+        jsonArrays.put(resource1.toJson());
+        jsonArrays.put(resource2.toJson());
+        jsonArrays.put(resource3.toJson());
+        jsonArrays.put(resource4.toJson());
+        jsonArrays.put(resource5.toJson());
+        jsonArrays.put(resource6.toJson());
+
+        JSONArray jsonarray2 = new JSONArray();
+        ArrayList<JSONObject> aux = stub.listAllResources();
+
+        for(int i = 0; i<aux.size();i++){
+            jsonarray2.put(aux.get(i));
+        }
+
+        Assertions.assertEquals(jsonarray2.toString(),jsonArrays.toString());
 
 
     }
