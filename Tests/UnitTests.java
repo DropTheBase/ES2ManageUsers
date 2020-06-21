@@ -38,15 +38,15 @@ public class UnitTests {
         Stub stub = new Stub();
         JSONObject json = new JSONObject();
 
-        json = stub.listUser(200);
+        json = stub.listUser(2);
 
         JSONObject jsonExpected = new JSONObject();
 
-        jsonExpected.put("last_name","alberto");
-        jsonExpected.put("id",200);
-        jsonExpected.put("avatar","image.png");
-        jsonExpected.put("first_name","jorge");
-        jsonExpected.put("email","jorge@gmail.com");
+        jsonExpected.put("last_name","Weaver");
+        jsonExpected.put("id",2);
+        jsonExpected.put("avatar","https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg");
+        jsonExpected.put("first_name","Janet");
+        jsonExpected.put("email","janet.weaver@reqres.in");
 
 
 
@@ -77,9 +77,39 @@ public class UnitTests {
     public void testListAllUsersSuccess(){
         Stub stub = new Stub();
 
-        ArrayList<JSONObject> jsonArrays = new ArrayList<JSONObject>();
+        JSONArray jsonArrays = new JSONArray();
 
-        Assertions.assertNotNull(jsonArrays);
+
+        User user= new User(1,"george.bluth@reqres.in","George","Bluth","https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg");
+
+
+        User user2= new User(2,"janet.weaver@reqres.in","Janet","Weaver","https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg");
+
+
+        User user3= new User(3,"emma.wong@reqres.in","Emma","Wong","https://s3.amazonaws.com/uifaces/faces/twitter/olegpogodaev/128.jpg");
+
+        User user4= new User(4,"eve.holt@reqres.in","Eve","Holt","https://s3.amazonaws.com/uifaces/faces/twitter/marcoramires/128.jpg");
+
+        User user5= new User(5,"charles.morris@reqres.in","Charles","Morris","https://s3.amazonaws.com/uifaces/faces/twitter/stephenmoon/128.jpg");
+
+        User user6= new User(6,"tracey.ramos@reqres.in","Tracey","Ramos","https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg");
+
+
+        jsonArrays.put(user.toJson());
+        jsonArrays.put(user2.toJson());
+        jsonArrays.put(user3.toJson());
+        jsonArrays.put(user4.toJson());
+        jsonArrays.put(user5.toJson());
+        jsonArrays.put(user6.toJson());
+
+        JSONArray jsonarray2 = new JSONArray();
+        ArrayList<JSONObject> aux = stub.listAllUsers();
+
+        for(int i = 0; i<aux.size();i++){
+            jsonarray2.put(aux.get(i));
+        }
+
+        Assertions.assertNotNull(jsonarray2.toString(),jsonArrays.toString());
 
 
     }
@@ -91,13 +121,13 @@ public class UnitTests {
 
         JSONObject json = new JSONObject();
 
-        json = stub.accessUserToApp("quaresma@gmail.com","cr7");
+        json = stub.registerUserToApp("eve.holt@reqres.in","pistol");
 
         JSONObject jsonStatus = new JSONObject();
 
-        jsonStatus.put("token", "ATK123");
-        jsonStatus.put("id", 301);
-        jsonStatus.put("status", 200);
+        jsonStatus.put("email", "eve.holt@reqres.in");
+        jsonStatus.put("id", 4);
+        jsonStatus.put("password", "pistol");
 
         Assertions.assertEquals(json.toString(),jsonStatus.toString());
 
@@ -111,10 +141,11 @@ public class UnitTests {
 
         JSONObject json = new JSONObject();
 
-        json = stub.accessUserToApp(null,"cr7");
+        json = stub.registerUserToApp(null,"pistol");
 
         JSONObject jsonStatus = new JSONObject();
 
+        jsonStatus.put("id", -1);
         jsonStatus.put("error", "Missing password or Email");
         jsonStatus.put("status", 400);
 
@@ -131,10 +162,11 @@ public class UnitTests {
 
         JSONObject json = new JSONObject();
 
-        json = stub.accessUserToApp("quaresma@gmail.com",null);
+        json = stub.registerUserToApp("eve.holt@reqres.in",null);
 
         JSONObject jsonStatus = new JSONObject();
 
+        jsonStatus.put("id", -1);
         jsonStatus.put("error", "Missing password or Email");
         jsonStatus.put("status", 400);
 
@@ -151,10 +183,11 @@ public class UnitTests {
 
         JSONObject json = new JSONObject();
 
-        json = stub.accessUserToApp(null,null);
+        json = stub.registerUserToApp(null,null);
 
         JSONObject jsonStatus = new JSONObject();
 
+        jsonStatus.put("id", -1);
         jsonStatus.put("error", "Missing password or Email");
         jsonStatus.put("status", 400);
 
@@ -170,7 +203,7 @@ public class UnitTests {
 
         JSONObject json = new JSONObject();
 
-        json = stub.loginUser("andre@gmail.com","user3");
+        json = stub.loginUser("eve.holt@reqres.in","cityslicka");
 
         JSONObject jsonStatus = new JSONObject();
 
@@ -191,7 +224,7 @@ public class UnitTests {
 
         JSONObject json = new JSONObject();
 
-        json = stub.loginUser("mailerrado@gmail.com","user3");
+        json = stub.loginUser("mailerrado@gmail.com","cityslicka");
 
         JSONObject jsonStatus = new JSONObject();
 
@@ -212,7 +245,7 @@ public class UnitTests {
 
         JSONObject json = new JSONObject();
 
-        json = stub.loginUser("andre@gmail.com","passworderrada");
+        json = stub.loginUser("eve.holt@reqres.in","passworderrada");
 
         JSONObject jsonStatus = new JSONObject();
 
@@ -255,15 +288,15 @@ public class UnitTests {
         Stub stub = new Stub();
         JSONObject json = new JSONObject();
 
-        json = stub.listResource(200);
+        json = stub.listResource(2);
 
         JSONObject jsonExpected = new JSONObject();
 
-        jsonExpected.put("id",200);
-        jsonExpected.put("name","nasa");
-        jsonExpected.put("year","1997");
-        jsonExpected.put("color","blue");
-        jsonExpected.put("pantone_value","17-03");
+        jsonExpected.put("id",2);
+        jsonExpected.put("name","fuchsia rose");
+        jsonExpected.put("year",2001);
+        jsonExpected.put("color","#C74375");
+        jsonExpected.put("pantone_value","17-2031");
 
 
         Assertions.assertEquals(json.toString(),jsonExpected.toString());
@@ -299,5 +332,29 @@ public class UnitTests {
 
 
     }
+
+    @Test
+
+    public void testDelayUsers() throws InterruptedException {
+        Stub stub = new Stub();
+
+        ArrayList<JSONObject> jsonArrays = new ArrayList<JSONObject>();
+
+        jsonArrays = stub.delayPublicUSers(10);
+
+
+        ArrayList<JSONObject> jsonArrays2 = stub.listAllUsers();
+
+
+        Assertions.assertEquals(jsonArrays.toString(),jsonArrays2.toString());
+
+    }
+
+
+
+    //blackbox
+
+
+
 
 }

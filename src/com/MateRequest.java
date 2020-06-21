@@ -1,9 +1,8 @@
 package com;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import org.json.JSONObject;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -41,7 +40,7 @@ public class MateRequest {
         }
     }
 
-    public static String executePost(String targetURL, String urlParameters) {
+    public static String executePost(String targetURL, String urlParameters) throws IOException {
         HttpURLConnection connection = null;
 
         try {
@@ -65,8 +64,16 @@ public class MateRequest {
             wr.writeBytes(urlParameters);
             wr.close();
 
+            InputStream is;
             //Get Response
-            InputStream is = connection.getInputStream();
+            if(connection.getResponseCode()>= 200 && connection.getResponseCode()<=299){
+
+                is = connection.getInputStream();
+            }else{
+                is = connection.getErrorStream();
+
+            }
+
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
             String line;
@@ -78,7 +85,11 @@ public class MateRequest {
             return response.toString();
         } catch (Exception e) {
             //e.printStackTrace(); //comentar futuramente
-            return null;
+            JSONObject json = new JSONObject();
+
+            int status = connection.getResponseCode();
+            json.put("status",status);
+            return json.toString();
         } finally {
             if (connection != null) {
                 connection.disconnect();
