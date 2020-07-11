@@ -1,34 +1,362 @@
 package com;
 
+import java.util.*;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import sun.nio.cs.US_ASCII;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
+import Exception.*;
 
 public class Stub {
 
-    public JSONObject createUser(String name, String job){
+    ArrayList<User> users_list = new ArrayList<>();
+    ArrayList<Resource> resources_list = new ArrayList<>();
+    ArrayList<Registry> registry_list = new ArrayList<>();
+    HashMap<Integer, String> token_list = new HashMap<>();
 
-        int id = 200;
+    //Add Users
+    public void createUser(User user) throws NoException, RepeatedException{
+        if (users_list == null) {
+            System.out.println("\nList doesn't exists!\n");
+            throw new NoException();
+        }
+        else if (user.getId() == 0) {
+            throw new NoException();
+        }
+        else if (user.getFirst_name() == null || user.getLast_name() == null || user.getEmail() == null || user.getAvatar() == null) {
+            throw new NoException();
+        }
+
+
+        for (int i = 0; i < users_list.size(); i++) {
+            int obj = user.getId();
+            if (users_list.get(i).getId() == (obj) || users_list.get(i).getEmail().equals(user.getEmail())) {
+                System.out.println("\nUser already exists!\n");
+                throw new RepeatedException();
+            }
+        }
+        users_list.add(user);
+    }
+
+    // add Resources
+
+    public void addResource(Resource resource) throws NoException, RepeatedException{
+        if (resources_list == null) {
+            System.out.println("\nLIst doesn't exists!\n");
+            throw new NoException();
+        }
+        else if (resource.getId() == null || resource.getName() == null || resource.getYear() == null || resource.getColor() == null || resource.getPantone_value() == null) {
+            throw new NoException();
+        }
+
+        for (int i = 0; i < resources_list.size(); i++) {
+            if (resources_list.get(i).getId().equals(resource.getId()) || resources_list.get(i).getName().equals(resource.getName())) {
+                System.out.println("\nResource already exists!\n");
+                throw new RepeatedException();
+            }
+        }
+        resources_list.add(resource);
+
+    }
+
+    // Users list
+
+    public ArrayList<User> listingUsers() throws NoException {
+        if (users_list == null) {
+            System.out.println("\nLIst doesn't exists!\n");
+            throw new NoException();
+        }
+
+        else if (users_list.size() < 1) {
+            System.out.println("\nThe list don't have any user!\n");
+            return null;
+        }
+
+        else {
+            System.out.println("\nThe list is:\n");
+            return users_list;
+        }
+    }
+
+    // User detail
+
+    public User consultingUser(Integer id) throws NoException, InvalidException {
+        if (users_list == null || id == null) {
+            System.out.println("\nLIst doesn't exists!\n");
+            throw new NoException();
+        }
+
+        else if (id < 0){
+            throw new InvalidException();
+        }
+
+        for (int i = 0; i < users_list.size(); i++) {
+            if (users_list.get(i).getId() == (id)){
+                System.out.println("\nUser : \n");
+                return users_list.get(i);
+            }
+        }
+
+        System.out.println("\nUser doesn't exists in the list!\n");
+        return null;
+    }
+
+    // Resources list
+
+    public ArrayList<Resource> listingResources() throws NoException {
+        if (resources_list == null) {
+            System.out.println("\nLIst doesn't exists!\n");
+            throw new NoException();
+        }
+
+        else if (resources_list.size() < 1) {
+            System.out.println("\nThe list don't contain any Resources!\n");
+            return null;
+        }
+
+        else {
+            System.out.println("\nThe list resources is:\n");
+            return resources_list;
+        }
+    }
+
+    // resources details
+
+    public Resource consultingResource(Integer id) throws NoException, InvalidException {
+        if (resources_list == null || id == null) {
+            System.out.println("\nLIst doesn't exists!\n");
+            throw new NoException();
+        }
+
+        else if (id < 0){
+            throw new InvalidException();
+        }
+
+        for (int i = 0; i < resources_list.size(); i++) {
+            if (resources_list.get(i).getId().equals(id)){
+                System.out.println("\nResource is :\n");
+                return resources_list.get(i);
+            }
+        }
+
+        System.out.println("\nResource doesn't exists!\n");
+        return null;
+    }
+
+
+    // Registry User
+    public Registry registryuser(String email, String password) throws NoException, RepeatedException, InvalidException{
+        if (token_list == null || registry_list == null || users_list == null || email == null || password == null) {
+            System.out.println("\nLIst doesn't exists!\n");
+            throw new NoException();
+        }
+        else if (email == null && password == null || !email.matches("^\\S+@\\S+$") || email.length() < 5 || !password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$")){
+            throw  new InvalidException();
+        }
+
+        String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lower = upper.toLowerCase(Locale.ROOT);
+        String digits = "0123456789";
+        String join = upper + lower + digits;
+        StringBuilder builder = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 11; i++) {
+            builder.append(join.charAt(random.nextInt(join.length())));
+        }
+        String token = builder.toString();
+
+        for (int i = 0; i < users_list.size(); i++) {
+            if (users_list.get(i).getEmail().equals(email)){
+                if (users_list.get(i).getId() == 0) {
+                    throw new NoException();
+                }
+                else if (token == null) {
+                    throw new NoException();
+                }else if (!token.matches("^[a-zA-Z0-9]{30}$") || token.length() < 10){
+                    throw new InvalidException();
+                }
+
+                for (int j = 0; j < registry_list.size(); j++) {
+                    if (registry_list.get(j).getId() == (users_list.get(i).getId()) || registry_list.get(j).getEmail().equals(users_list.get(i).getEmail())) {
+                        System.out.println("\nUser already registered!\n");
+                        throw new RepeatedException();
+                    }
+                }
+
+                Registry userRegistry = new Registry(users_list.get(i).getId(), email, password, token);
+                registry_list.add(userRegistry);
+                token_list.put(userRegistry.getId(), userRegistry.getToken());
+                System.out.println("\nUser successfully registered!");
+
+                return userRegistry;
+            }
+        }
+
+        System.out.println("\nUser doesn't exist!\n");
+        return null;
+    }
+
+    // Login User
+    public String loginUser(String email, String password) throws NoException, InvalidException {
+        if (token_list == null || registry_list == null || email == null || password == null) {
+            System.out.println("\nList doesn't exist!\n");
+            throw new NoException();
+        } else if (email == null && password == null || !email.matches("^\\S+@\\S+$") || email.length() < 5 || !password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$")){
+            throw new InvalidException();
+        }
+
+
+        Boolean exists = Boolean.FALSE;
+        for (int i = 0; i < registry_list.size(); i++) {
+            if (registry_list.get(i).getEmail().equals(email)){
+                exists = Boolean.TRUE;
+                if (registry_list.get(i).getPassword().equals(password)) {
+
+                    for (Map.Entry entry : token_list.entrySet()) {
+                        if(entry.getKey().equals(registry_list.get(i).getId())){
+                            if(entry.getValue() == registry_list.get(i).getToken()){
+                                System.out.println("\nAuthenticated!\n");
+                                return registry_list.get(i).getToken();
+                            }
+                            else {
+                                System.out.println("\nWrong token!\n");
+                                throw new InvalidException();
+                            }
+                        }
+                    }
+                }
+                else {
+                    System.out.println("\nWrong password!\n");
+                }
+            }
+        }
+        if (exists == Boolean.FALSE) {
+            System.out.println("\nUser is not registered!\n");
+            throw new NoException();
+        }
+        return null;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+CODIGO ANTIGO
+
+
+
+ public JSONObject createUser(String name, String job){
+        String regex = "[0-9]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher_name = pattern.matcher(name);
+        Matcher matcher_job = pattern.matcher(job);
+
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-         System.out.println(timestamp);
+        int id = 200;
 
         JSONObject json = new JSONObject();
 
+        json.put("id", id);
         json.put("name", name);
         json.put("job", job);
-        json.put("id", id);
         json.put("createdAt", timestamp);
 
+        if(name != "" && job != "") {
+            if (matcher_name.find() && matcher_job.find()) {
 
-        System.out.println(json.toString());
+                System.out.println("status:" + " 400");
+                System.out.println("Name and job can't contain numbers.");
+
+            } else if(matcher_name.find()) {
+                System.out.println("status:" + " 400");
+                System.out.println("Name can't contain numbers.");
+
+            } else if(matcher_job.find()) {
+                System.out.println("status:" + " 400");
+                System.out.println("Job can't contain numbers.");
+
+            } else {
+                System.out.println("status:" + " 201");
+                System.out.println("User with job was Created.");
+
+                System.out.println(json.toString());
+            }
+        }
+
+        else if(name != "" && job == "") {
+            if (matcher_name.find()) {
+
+                System.out.println("status:" + " 400");
+                System.out.println("Name can't contain numbers.");
+
+            }else {
+                System.out.println("status:" + " 201");
+                System.out.println("User without job was Created.");
+
+                System.out.println(json.toString());
+            }
+        }
+        else if (name == "" && (job == "" || job != "")){
+            System.out.println("status:"+ " 400");
+            System.out.println("Missing name in User.");
+        }
 
         return json;
-
-
     }
 
     public JSONObject listUser(int id){
@@ -91,12 +419,12 @@ public class Stub {
 
         User user6= new User(6,"tracey.ramos@reqres.in","Tracey","Ramos","https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg");
 
-       jsonArrays.add(user.toJson());
-       jsonArrays.add(user2.toJson());
-       jsonArrays.add(user3.toJson());
-       jsonArrays.add(user4.toJson());
-       jsonArrays.add(user5.toJson());
-       jsonArrays.add(user6.toJson());
+        jsonArrays.add(user.toJson());
+        jsonArrays.add(user2.toJson());
+        jsonArrays.add(user3.toJson());
+        jsonArrays.add(user4.toJson());
+        jsonArrays.add(user5.toJson());
+        jsonArrays.add(user6.toJson());
 
         return jsonArrays;
 
@@ -135,7 +463,6 @@ public class Stub {
         JSONObject json = new JSONObject();
 
         User user = new User();
-
         User user3= new User(203,"eve.holt@reqres.in","andre","monteiro","image3.svg");
 
         String pass = "cityslicka";
@@ -144,9 +471,46 @@ public class Stub {
         if(password.equals(pass) && email.equals(mail)){
             json.put("token", "ATK321");
             json.put("status", 200);
-        }else{
+        }
+
+        else if (password == "" && email== ""){
             json.put("status", 400);
-            System.out.println("Missing password/Email or password isn't correct.");
+            System.out.println("Missing email and password.");
+        }
+
+        else if (password == "" && email != ""){
+            json.put("status", 400);
+            System.out.println("Missing password.");
+        }
+
+        else if (password != ""  && email == ""){
+            json.put("status", 400);
+            System.out.println("Missing Email.");
+        }
+
+        else if (password.equals(pass) && (! email.equals(mail))){
+            String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(email);
+
+            if(matcher.matches()==true){
+                json.put("status", 400);
+                System.out.println("Email with correct format, but incorrect.");
+            }
+            else {
+                json.put("status", 400);
+                System.out.println("Email with incorrect format.");
+            }
+        }
+
+        else if ((! password.equals(pass)) && email.equals(mail)){
+            json.put("status", 400);
+            System.out.println("Password incorrect");
+        }
+
+        else if (password != "" && email != ""){
+            json.put("status", 400);
+            System.out.println("Invalid Email and Password.");
         }
 
         System.out.println(json.toString());
@@ -252,5 +616,4 @@ public class Stub {
 
 
     }
-
-}
+ */

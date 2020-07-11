@@ -12,12 +12,85 @@ import java.util.ArrayList;
 
 public class UnitTests {
 
-    @Test
-    public void testCreateUser(){
+  @Test
+    public void olaadeus(){}
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* CODIGO ANTIGO
+
+  @Test
+    public void testCreateUserWithNameAndJob(){
         Stub stub = new Stub();
-        JSONObject json = new JSONObject();
 
+        JSONObject json = new JSONObject();
         json = stub.createUser("andre","arquiteto");
 
         JSONObject jsonExpected= new JSONObject();
@@ -25,11 +98,110 @@ public class UnitTests {
         jsonExpected.put("name", "andre");
         jsonExpected.put("job", "arquiteto");
 
+        Assertions.assertEquals(json.get("name"),jsonExpected.get("name"));
+        Assertions.assertEquals(json.get("job"),jsonExpected.get("job"));
+        Assertions.assertNotNull(json.get("createdAt"));
+    }
 
+    @Test
+    public void testCreateUserUnsuccess_NumbersOnNameAndJob(){
+        Stub stub = new Stub();
+
+        JSONObject json = new JSONObject();
+        json = stub.createUser("andre23","arquiteto23");
+
+        JSONObject jsonExpected= new JSONObject();
+
+        jsonExpected.put("name", "andre23");
+        jsonExpected.put("job", "arquiteto23");
 
         Assertions.assertEquals(json.get("name"),jsonExpected.get("name"));
         Assertions.assertEquals(json.get("job"),jsonExpected.get("job"));
+        Assertions.assertNotNull(json.get("createdAt"));
+    }
 
+    @Test
+    public void testCreateUserUnsuccess_NumbersOnName(){
+        Stub stub = new Stub();
+
+        JSONObject json = new JSONObject();
+        json = stub.createUser("andre23","arquiteto");
+
+        JSONObject jsonExpected= new JSONObject();
+
+        jsonExpected.put("name", "andre23");
+        jsonExpected.put("job", "arquiteto");
+
+        Assertions.assertEquals(json.get("name"),jsonExpected.get("name"));
+        Assertions.assertEquals(json.get("job"),jsonExpected.get("job"));
+        Assertions.assertNotNull(json.get("createdAt"));
+    }
+
+    @Test
+    public void testCreateUserUnsuccess_NumbersOnJob(){
+        Stub stub = new Stub();
+
+        JSONObject json = new JSONObject();
+        json = stub.createUser("andre","arquiteto23");
+
+        JSONObject jsonExpected= new JSONObject();
+
+        jsonExpected.put("name", "andre");
+        jsonExpected.put("job", "arquiteto23");
+
+        Assertions.assertEquals(json.get("name"),jsonExpected.get("name"));
+        Assertions.assertEquals(json.get("job"),jsonExpected.get("job"));
+        Assertions.assertNotNull(json.get("createdAt"));
+    }
+
+    @Test
+    public void testCreateUserWithoutJob(){
+        Stub stub = new Stub();
+
+        JSONObject json = new JSONObject();
+        json = stub.createUser("andre","");
+
+        JSONObject jsonExpected= new JSONObject();
+
+        jsonExpected.put("name", "andre");
+        jsonExpected.put("job", "");
+
+        Assertions.assertEquals(json.get("name"),jsonExpected.get("name"));
+        Assertions.assertEquals(json.get("job"),jsonExpected.get("job"));
+        Assertions.assertNotNull(json.get("createdAt"));
+    }
+
+    @Test
+    public void testCreateUserWithoutJobUnsuccess_NumbersOnName(){
+        Stub stub = new Stub();
+
+        JSONObject json = new JSONObject();
+        json = stub.createUser("andre23","");
+
+        JSONObject jsonExpected= new JSONObject();
+
+        jsonExpected.put("name", "andre23");
+        jsonExpected.put("job", "");
+
+        Assertions.assertEquals(json.get("name"),jsonExpected.get("name"));
+        Assertions.assertEquals(json.get("job"),jsonExpected.get("job"));
+        Assertions.assertNotNull(json.get("createdAt"));
+    }
+
+    @Test
+    public void testCreateUserUnsuccess(){
+        Stub stub = new Stub();
+
+        JSONObject json = new JSONObject();
+        json = stub.createUser("","");
+
+        JSONObject jsonExpected= new JSONObject();
+
+        jsonExpected.put("name", "");
+        jsonExpected.put("job", "");
+
+        Assertions.assertEquals(json.get("name"),jsonExpected.get("name"));
+        Assertions.assertEquals(json.get("job"),jsonExpected.get("job"));
         Assertions.assertNotNull(json.get("createdAt"));
     }
 
@@ -211,11 +383,50 @@ public class UnitTests {
         jsonStatus.put("token", "ATK321");
         jsonStatus.put("status", 200);
 
-
-
-
         Assertions.assertEquals(json.toString(),jsonStatus.toString());
 
+    }
+
+    @Test
+    public void testLoginUnsuccessMissingEmailAndPassword(){
+        Stub stub = new Stub();
+        JSONObject json = new JSONObject();
+
+        json = stub.loginUser("","");
+
+        JSONObject jsonStatus = new JSONObject();
+
+        jsonStatus.put("status", 400);
+
+        Assertions.assertEquals(json.toString(),jsonStatus.toString());
+    }
+
+    @Test
+    public void testLoginUnsuccessMissingPassword(){
+        Stub stub = new Stub();
+        JSONObject json = new JSONObject();
+
+        json = stub.loginUser("eve.holt@reqres.in","");
+
+        JSONObject jsonStatus = new JSONObject();
+
+        jsonStatus.put("status", 400);
+
+        Assertions.assertEquals(json.toString(),jsonStatus.toString());
+    }
+
+    @Test
+    public void testLoginUnsuccessMissingEmail(){
+        Stub stub = new Stub();
+        JSONObject json = new JSONObject();
+
+        json = stub.loginUser("","cityslicka");
+
+        JSONObject jsonStatus = new JSONObject();
+
+        jsonStatus.put("status", 400);
+
+        Assertions.assertEquals(json.toString(),jsonStatus.toString());
     }
 
     //whitebox
@@ -229,11 +440,7 @@ public class UnitTests {
 
         JSONObject jsonStatus = new JSONObject();
 
-
         jsonStatus.put("status", 400);
-
-
-
 
         Assertions.assertEquals(json.toString(),jsonStatus.toString());
 
@@ -250,11 +457,68 @@ public class UnitTests {
 
         JSONObject jsonStatus = new JSONObject();
 
-
         jsonStatus.put("status", 400);
 
 
+        Assertions.assertEquals(json.toString(),jsonStatus.toString());
 
+    }
+
+    @Test
+    public void testLoginUnsuccessRegexEmailWithOnlyOneName(){
+        Stub stub = new Stub();
+        JSONObject json = new JSONObject();
+
+        json = stub.loginUser("tiago","cityslicka");
+
+        JSONObject jsonStatus = new JSONObject();
+
+        jsonStatus.put("status", 400);
+
+        Assertions.assertEquals(json.toString(),jsonStatus.toString());
+
+    }
+
+    @Test
+    public void testLoginUnsuccessRegexEmailWithOnlyDomain(){
+        Stub stub = new Stub();
+        JSONObject json = new JSONObject();
+
+        json = stub.loginUser("@gmail.com","cityslicka");
+
+        JSONObject jsonStatus = new JSONObject();
+
+        jsonStatus.put("status", 400);
+
+        Assertions.assertEquals(json.toString(),jsonStatus.toString());
+
+    }
+
+    @Test
+    public void testLoginUnsuccessRegexEmailWithoutArroba(){
+        Stub stub = new Stub();
+        JSONObject json = new JSONObject();
+
+        json = stub.loginUser("teste.gmail.com","cityslicka");
+
+        JSONObject jsonStatus = new JSONObject();
+
+        jsonStatus.put("status", 400);
+
+        Assertions.assertEquals(json.toString(),jsonStatus.toString());
+
+    }
+
+    @Test
+    public void testLoginUnsuccessRegexEmailWithoutDotCom(){
+        Stub stub = new Stub();
+        JSONObject json = new JSONObject();
+
+        json = stub.loginUser("teste@gmail","cityslicka");
+
+        JSONObject jsonStatus = new JSONObject();
+
+        jsonStatus.put("status", 400);
 
         Assertions.assertEquals(json.toString(),jsonStatus.toString());
 
@@ -271,11 +535,7 @@ public class UnitTests {
 
         JSONObject jsonStatus = new JSONObject();
 
-
         jsonStatus.put("status", 400);
-
-
-
 
         Assertions.assertEquals(json.toString(),jsonStatus.toString());
 
@@ -304,7 +564,7 @@ public class UnitTests {
 
     }
 
-//whitebox
+    //whitebox
     @Test
     public void testSingleResourceUnsuccess(){
 
@@ -360,7 +620,7 @@ public class UnitTests {
 
 
     }
-
+    //blackbox
     @Test
 
     public void testDelayUsers() throws InterruptedException {
@@ -377,12 +637,4 @@ public class UnitTests {
         Assertions.assertEquals(jsonArrays.toString(),jsonArrays2.toString());
 
     }
-
-
-
-    //blackbox
-
-
-
-
-}
+ */

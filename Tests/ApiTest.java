@@ -14,10 +14,78 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ApiTest {
+    @Test
+    public void adeus(){}
+}
 
 
 
-    public static String path = "https://reqres.in";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* CODIGO ANTIGO
+
+ public static String path = "https://reqres.in";
 
     @Test
     public void testListUsers(){
@@ -372,8 +440,4 @@ public class ApiTest {
 
         Assertions.assertEquals(result.toString(),put.toString());
     }
-
-
-}
-
-
+ */

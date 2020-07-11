@@ -13,7 +13,65 @@ import java.util.List;
 
 public class GlobalTests {
 
-    public static String path = "https://reqres.in";
+    @Test
+    public void ola(){}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* CODIGO ANTIGO
+
+
+ public static String path = "https://reqres.in";
 
     @Test
     public void testListAllUsers(){
@@ -189,4 +247,4 @@ public class GlobalTests {
         Assertions.assertEquals(json1.toString(),data.toString());
 
     }
-}
+ */
