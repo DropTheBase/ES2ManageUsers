@@ -1,17 +1,7 @@
-import com.API;
-import com.MateRequest;
-import com.Resource;
-import com.User;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class ApiTest {
     @Test
