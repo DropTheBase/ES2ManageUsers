@@ -17,7 +17,7 @@ public class mainCreateUser {
 
         Scanner myObj = new Scanner(System.in);
 
-        int idCounter = 1;
+        int idCounter = 13;
         int id = idCounter++;
         String first_name;
         String job;

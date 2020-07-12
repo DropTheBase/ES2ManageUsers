@@ -13,7 +13,7 @@ public class mainListUsers {
         String token = containerapp.loginUser("eve.holt@reqres.in", "cityslicka");
         Registry admin = new Registry(4, "eve.holt@reqres.in", "cityslicka", token);
 
-       ArrayList<User> users_list = containerapp.listingUsers(admin, token);
+        ArrayList<User> users_list = containerapp.listingUsers(admin, token);
 
     }
 }

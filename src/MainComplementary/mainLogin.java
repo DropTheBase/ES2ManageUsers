@@ -1,6 +1,5 @@
 package MainComplementary;
 
-import com.Registry;
 import com.controllerApp;
 
 import java.util.Scanner;
@@ -13,14 +12,11 @@ public class mainLogin {
         String email;
         String password;
 
-        System.out.println("\n  Enter Email ");
+        System.out.println("\nEnter Email:");
         email = myObj.nextLine();
-        System.out.println("  Enter Password  |");
+        System.out.println("Enter Password:");
         password = myObj.nextLine();
 
-
-        String token = containerapp.loginUser(email, password);
-        Registry admin = new Registry(4, "eve.holt@reqres.in", "cityslicka", token);
-
+        containerapp.loginUser(email, password);
     }
 }

@@ -15,7 +15,7 @@ public class mainResourceDetail {
 
         Scanner myObj = new Scanner(System.in);
 
-        System.out.println("\n  Enter ID from Resource  ");
+        System.out.println("\nEnter ID from Resource:");
         int id = myObj.nextInt();
 
         Resource searchResource = containerapp.consultingResource(id, admin, token);

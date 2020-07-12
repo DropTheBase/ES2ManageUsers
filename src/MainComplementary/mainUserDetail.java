@@ -15,7 +15,7 @@ public class mainUserDetail {
 
         Scanner myObj = new Scanner(System.in);
 
-        System.out.println("\n  Enter ID from user  ");
+        System.out.println("\nEnter ID from user:");
         int id = myObj.nextInt();
 
         User searchUser = containerapp.consultingUser(id, admin, token);

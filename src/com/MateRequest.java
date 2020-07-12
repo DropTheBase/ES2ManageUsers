@@ -73,7 +73,7 @@ public class MateRequest {
         return inline;
     }
 
-    public String ResponsePOSTandPUT(String link, String method, String header){
+    public String ResponsePOST(String link, String method, String header){
         URL url = null;
         String teste = "";
         try {

@@ -186,7 +186,7 @@ public class controllerApp {
 
                 int status = connection.getResponseCode();
 
-                if(status == HttpURLConnection.HTTP_OK){ //ID 1
+                if(status == HttpURLConnection.HTTP_OK){
                     try(BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
                         String teste = new String();
                         String responseLine = null;
@@ -358,7 +358,7 @@ public class controllerApp {
                 }
 
                 if (status == HttpURLConnection.HTTP_NOT_FOUND){
-                    System.out.println("\n Response 404: {}");
+                    System.out.println("\nResponse 404: {}");
                     User users = null;
                     return users;
                 }
@@ -417,7 +417,7 @@ public class controllerApp {
                     String color = (String) objjs.get("color");
                     String pantone_value = (String) objjs.get("pantone_value");
 
-                    System.out.println("Response 200: Resource Details");
+                    System.out.println("\nResponse 200: Resource Details");
                     System.out.println("\tID: " + id_resource);
                     System.out.println("\tNome: " + name);
                     System.out.println("\tAno: " + year);
@@ -428,8 +428,8 @@ public class controllerApp {
                     return resource;
                 }
 
-                if (status == HttpURLConnection.HTTP_NOT_FOUND){ //ID 5
-                    System.out.println("Response 404: {}");
+                if (status == HttpURLConnection.HTTP_NOT_FOUND){
+                    System.out.println("\nResponse 404: {}");
                     Resource resource = null;
                     return resource;
                 }

@@ -5,10 +5,10 @@ import java.util.*;
 
 
 public class Stub implements FE {
-    ArrayList<User> users_list = new ArrayList<>();
-    ArrayList<Resource> resources_list = new ArrayList<>();
-    ArrayList<Registry> registry_list = new ArrayList<>();
-    HashMap<Integer, String> token_list = new HashMap<>();
+    public ArrayList<User> users_list = new ArrayList<>();
+    public ArrayList<Resource> resources_list = new ArrayList<>();
+    public ArrayList<Registry> registry_list = new ArrayList<>();
+    public HashMap<Integer, String> token_list = new HashMap<>();
 
     //Add Users
     public void createUser(User user) throws NoException, RepetedException{
@@ -19,7 +19,7 @@ public class Stub implements FE {
         else if (user.getId() == 0) {
             throw new NoException();
         }
-        else if (user.getFirst_name() == null || user.getLast_name() == null || user.getEmail() == null || user.getAvatar() == null) {
+        else if (user.getFirst_name() == null || user.getLast_name() == null || user.getEmail() == null || user.getAvatar() == null|| user.getJob() == null) {
             throw new NoException();
         }
 
@@ -142,13 +142,35 @@ public class Stub implements FE {
 
     // Registry User
     public Registry registryuser(String email, String password) throws NoException, RepetedException, InvalidException{
-        if (token_list == null || registry_list == null || users_list == null || email == null || password == null) {
-            System.out.println("\nLIst doesn't exists!\n");
+        if (token_list == null) {
+            System.out.println("\nThe list is not available\n");
             throw new NoException();
         }
-        else if (email == null && password == null || !email.matches("^\\S+@\\S+$") || email.length() < 5 || !password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$")){
-            throw  new InvalidException();
+        else if (registry_list == null) {
+            System.out.println("\nThe list is not available\n");
+            throw new NoException();
         }
+        else if (users_list == null) {
+            System.out.println("\nThe list is not available\n");
+            throw new NoException();
+        }
+        else if (email == null) {
+            System.out.println("Email is NULL");
+            throw new NoException();
+        }
+        else if (password == null) {
+            throw new NoException();
+        }
+        else if (!email.matches("^\\S+@\\S+$")){
+            throw new InvalidException();
+        }
+        else if (email.length() > 30 || email.length() < 5){
+            throw new InvalidException();
+        }
+        else if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$")){
+            throw new InvalidException();
+        }
+
 
         String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lower = upper.toLowerCase(Locale.ROOT);
@@ -163,7 +185,7 @@ public class Stub implements FE {
 
         for (int i = 0; i < users_list.size(); i++) {
             if (users_list.get(i).getEmail().equals(email)){
-                if (users_list.get(i).getId() == 0) {
+                if (users_list.get(i).getId() == null) {
                     throw new NoException();
                 }
                 else if (token == null) {
@@ -173,7 +195,7 @@ public class Stub implements FE {
                 }
 
                 for (int j = 0; j < registry_list.size(); j++) {
-                    if (registry_list.get(j).getId() == (users_list.get(i).getId()) || registry_list.get(j).getEmail().equals(users_list.get(i).getEmail())) {
+                    if (registry_list.get(j).getId().equals(users_list.get(i).getId()) || registry_list.get(j).getEmail().equals(users_list.get(i).getEmail())) {
                         System.out.println("\nUser already registered!\n");
                         throw new RepetedException();
                     }
@@ -194,10 +216,27 @@ public class Stub implements FE {
 
 // Login User
     public String loginUser(String email, String password) throws NoException, InvalidException {
-        if (token_list == null || registry_list == null || email == null || password == null) {
-            System.out.println("\nList doesn't exist!\n");
+        if (token_list == null) {
+            System.out.println("\nLista don't exists!\n");
             throw new NoException();
-        } else if (email == null && password == null || !email.matches("^\\S+@\\S+$") || email.length() < 5 || !password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$")){
+        }
+        else if (registry_list == null) {
+            System.out.println("\nLista don't exists!\n");
+            throw new NoException();
+        }
+        else  if (email == null) {
+            throw new NoException();
+        }
+        else if (password == null) {
+            throw new NoException();
+        }
+        else if (!email.matches("^\\S+@\\S+$")){
+            throw new InvalidException();
+        }
+        else if (email.length() > 30 || email.length() < 5){
+            throw new InvalidException();
+        }
+        else if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$")){
             throw new InvalidException();
         }
 

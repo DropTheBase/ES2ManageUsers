@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class API {
-    ArrayList<User> users_list;
-    ArrayList<Resource> resources_list;
+    ArrayList<User> users_list = new ArrayList<>();
+    ArrayList<Resource> resources_list = new ArrayList<>();
     // Users list-------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------------------
     public ArrayList<User> listingUsers(){
@@ -72,10 +72,13 @@ public class API {
                     System.out.println("\n");
 
                     User user = new User(id, first_name, last_name, email, avatar,job,createdAt);
+
                     users_list.add(user);
+
                 }
 
                 return users_list;
+
             }
 
             connection.disconnect();
@@ -87,6 +90,7 @@ public class API {
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
+
         return users_list;
     }
 
