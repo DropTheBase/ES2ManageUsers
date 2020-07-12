@@ -64,7 +64,7 @@ public class Resource {
             System.out.println("This name is null!");
             throw new NoException();
         }
-        else if (!name.matches("^[a-zA-Z]{1,30}$") || name.length() < 1){
+        else if (!name.matches("^[a-zA-Z]{1,30}$") || name.length() < 1|| name.length()>20){
             System.out.println("This name is invalid!");
             throw new InvalidException();
         }
@@ -100,7 +100,7 @@ public class Resource {
             System.out.println("This year is invalid!");
             throw new InvalidException();
         }
-        else if(year > Year.now().getValue() || year < 2000){
+        else if(year > Year.now().getValue() || year < 2000||year>3000){
             System.out.println("This year is invalid!");
             throw new InvalidException();
         }
@@ -129,7 +129,7 @@ public class Resource {
             System.out.println("This color is null!");
             throw new NoException();
         }
-        else if (!color.matches("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")){
+        else if (!color.matches("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")||color.length()<7||color.length()>7){
             System.out.println("This color is invalid!");
             throw new InvalidException();
         }
@@ -157,7 +157,7 @@ public class Resource {
             System.out.println("This pantone value is null!");
             throw new NoException();
         }
-        else if (!pantone_value.matches("^([A-Fa-f0-9]{2})-([A-Fa-f0-9]{4})$")){
+        else if (!pantone_value.matches("^([A-Fa-f0-9]{2})-([A-Fa-f0-9]{4})$")||pantone_value.length()<7||pantone_value.length()>7){
             System.out.println("This pantone value is invalid!");
             throw new InvalidException();
         }

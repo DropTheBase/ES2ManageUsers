@@ -21,7 +21,7 @@ public class TestsStub {
     //add user with id 0 and createdAt null
     @Test
     void AddUserIDNull() {
-        User user = new User(0,"teste@reqres.in","teste", "teste","https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg","teste",null);
+        User user = new User(null,"teste@reqres.in","teste", "teste","https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg","teste",null);
         Stub stub = new Stub();
         Assertions.assertThrows(NoException.class,() -> {
             stub.createUser(user);
@@ -167,7 +167,7 @@ public class TestsStub {
 
     @Test
     void AddResource() {
-        Resource testResource = new Resource(20, "fuchsia rose", 2001, "#C74375", "17-2031" );
+        Resource testResource = new Resource(20, "fuchsiarose", 2001, "#C74375", "17-2031" );
         Stub stub = new Stub();
         Assertions.assertDoesNotThrow(() -> {stub.addResource(testResource);});
     }
@@ -175,7 +175,7 @@ public class TestsStub {
     // add resource without List
     @Test
     void AddResourceWithoutList() {
-        Resource testResource = new Resource(20, "fuchsia rose", 2001, "#C74375", "17-2031" );
+        Resource testResource = new Resource(20, "fuchsiarose", 2001, "#C74375", "17-2031" );
         Stub stub = new Stub();
         stub.resources_list = null;
         Assertions.assertThrows(NoException.class,() -> {
@@ -186,7 +186,7 @@ public class TestsStub {
     //add 2 resources with same ID
     @Test
     void AddResourceSameID() throws RepetedException, NoException {
-        Resource testResource = new Resource(20, "fuchsia rose", 2001, "#C74375", "17-2031" );
+        Resource testResource = new Resource(20, "fuchsiarose", 2001, "#C74375", "17-2031" );
         Resource testResource1 = new Resource(20, "fuchsia ", 2002, "#C74374", "17-2032" );
         Stub stub = new Stub();
         stub.addResource(testResource);
@@ -199,7 +199,7 @@ public class TestsStub {
     // error
     @Test
     void AddResourceIDNull() {
-        Resource testResource = new Resource(null, "fuchsia rose", 2001, "#C74375", "17-2031"  );
+        Resource testResource = new Resource(null, "fuchsiarose", 2001, "#C74375", "17-2031"  );
         Stub stub = new Stub();
         Assertions.assertThrows(NoException.class,() -> {
             stub.addResource(testResource);
@@ -219,7 +219,7 @@ public class TestsStub {
     //add resource with year null
     @Test
     void AddResourceYearNull() {
-        Resource testResource = new Resource(20, "fuchsia rose", null, "#C74375", "17-2031"  );
+        Resource testResource = new Resource(20, "fuchsiarose", null, "#C74375", "17-2031"  );
         Stub stub = new Stub();
         Assertions.assertThrows(NoException.class,() -> {
             stub.addResource(testResource);
@@ -229,7 +229,7 @@ public class TestsStub {
     //add resource with color null
     @Test
     void AddResourceColorNull() {
-        Resource testResource = new Resource(20, "fuchsia rose", 2001, null, "17-2031"  );
+        Resource testResource = new Resource(20, "fuchsiarose", 2001, null, "17-2031"  );
         Stub stub = new Stub();
         Assertions.assertThrows(NoException.class,() -> {
             stub.addResource(testResource);
@@ -238,7 +238,7 @@ public class TestsStub {
     //add resource with pantone null
     @Test
     void AddResourcePantoneNull() {
-        Resource testResource = new Resource(20, "fuchsia rose", 2001, "#C74375", null  );
+        Resource testResource = new Resource(20, "fuchsiarose", 2001, "#C74375", null  );
         Stub stub = new Stub();
         Assertions.assertThrows(NoException.class,() -> {
             stub.addResource(testResource);
@@ -275,7 +275,7 @@ public class TestsStub {
     // LIst Resources Tests -------------------------
     @Test
     void ListResources() throws NoException, RepetedException {
-        Resource resource = new Resource(20, "fuchsia rose", 2001, "#C74375", "17-2031" );
+        Resource resource = new Resource(20, "fuchsiarose", 2001, "#C74375", "17-2031" );
         Stub stub = new Stub();
         stub.addResource(resource);
         ArrayList<Resource> resourcesarr = new ArrayList<>();
@@ -333,7 +333,7 @@ public class TestsStub {
     // Resource Detail Tests ---------------------
     @Test
     void ResourceDetail() throws RepetedException, NoException, InvalidException {
-        Resource testResource = new Resource(20, "fuchsia rose", 2001, "#C74375", "17-2031");
+        Resource testResource = new Resource(20, "fuchsiarose", 2001, "#C74375", "17-2031");
         Stub stub = new Stub();
         stub.addResource(testResource);
         Assertions.assertEquals(testResource, stub.consultingResource(20));
@@ -353,7 +353,7 @@ public class TestsStub {
     //Resource detail list with no users
     @Test
     void ResourceDetailNoResource() throws NoException, RepetedException, InvalidException {
-        Resource resource = new Resource(20, "fuchsia rose", 2001, "#C74375", "17-2031");
+        Resource resource = new Resource(20, "fuchsiarose", 2001, "#C74375", "17-2031");
         Stub stub = new Stub();
         stub.addResource(resource);
         Assertions.assertEquals(null, stub.consultingResource(2));
@@ -627,7 +627,7 @@ public class TestsStub {
 
         Assertions.assertThrows(RepetedException.class,() -> {
             for (int i = 0; i < stub.users_list.size(); i++) {
-                if (stub.users_list.get(i).getId()==(testUser.getId()) || stub.users_list.get(i).getEmail().equals(testUser.getEmail())) {
+                if (stub.users_list.get(i).getId().equals(testUser.getId()) || stub.users_list.get(i).getEmail().equals(testUser.getEmail())) {
                     throw new RepetedException();
                 }
             }

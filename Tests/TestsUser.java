@@ -49,14 +49,14 @@ public class TestsUser {
     }
 
     @Test
-    void testMaxLenghtLastNameForGet() {
+    void testMinLenghtLastNameForGet() {
         User testUser = new User(240, "user1@user.pt", "Utilizador", "es", "https://s3.amazonaws.com/assets/images/User1/user1.jpg","user",null );
 
         Assertions.assertEquals("es", testUser.getLast_name());
     }
 
     @Test
-    void testMinLenghtLastNameForGet() {
+    void testMaxLenghtLastNameForGet() {
         User testUser = new User(240, "user1@user.pt", "Utilizador", "thislastnameistoolongforthisphrasesowewrotethis", "https://s3.amazonaws.com/assets/images/User1/user1.jpg","user",null );
 
         Assertions.assertEquals("thislastnameistoolongforthisphrasesowewrotethis", testUser.getLast_name());
@@ -146,14 +146,14 @@ public class TestsUser {
     }
 
     @Test
-    void testMaxLenghtJobForGet() {
+    void testMinLenghtJobForGet() {
         User testUser = new User(240, "user1@user.pt", "Utilizador", "User", "https://s3.amazonaws.com/assets/images/User1/user1.jpg","us",null );
 
         Assertions.assertEquals("us", testUser.getJob());
     }
 
     @Test
-    void testMinLenghtJobForGet() {
+    void testMaxLenghtJobForGet() {
         User testUser = new User(240, "user1@user.pt", "Utilizador", "User", "https://s3.amazonaws.com/assets/images/User1/user1.jpg","userjobistoolongtobecorrectisthisphrase",null );
 
         Assertions.assertEquals("userjobistoolongtobecorrectisthisphrase", testUser.getJob());
@@ -173,7 +173,7 @@ public class TestsUser {
     //TEST FIRST NAME
 
     @Test
-    void testNullFirstName() {
+    void testNullFirstNameForSet() {
         User testUser = new User(240, "user1@user.pt", "Utilizador", "User", "https://s3.amazonaws.com/assets/images/User1/user1.jpg","user",null );
 
         Assertions.assertThrows(NoException.class,() -> {
@@ -182,7 +182,7 @@ public class TestsUser {
     }
 
     @Test
-    void testMaxLenghtFisrtName() {
+    void testMaxLenghtFisrtNameForSet() {
         User testUser = new User(240, "user1@user.pt", "Utilizador", "User", "https://s3.amazonaws.com/assets/images/User1/user1.jpg","user",null );
 
         Assertions.assertThrows(InvalidException.class,() -> {
@@ -191,7 +191,7 @@ public class TestsUser {
     }
 
     @Test
-    void testMinLenghtFisrtName() {
+    void testMinLenghtFisrtNameForSet() {
         User testUser = new User(240, "user1@user.pt", "Utilizador", "User", "https://s3.amazonaws.com/assets/images/User1/user1.jpg","user",null );
 
         Assertions.assertThrows(InvalidException.class,() -> {
@@ -200,7 +200,7 @@ public class TestsUser {
     }
 
     @Test
-    void testNameNumber() {
+    void testNameNumberForSet() {
         User testUser = new User(240, "user1@user.pt", "Utilizador", "User", "https://s3.amazonaws.com/assets/images/User1/user1.jpg","user",null );
 
         Assertions.assertThrows(InvalidException.class,() -> {

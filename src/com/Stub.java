@@ -16,7 +16,8 @@ public class Stub implements FE {
             System.out.println("\nList doesn't exists!\n");
             throw new NoException();
         }
-        else if (user.getId() == 0) {
+        else if (user.getId() == null) {
+            System.out.println("ID is NULL");
             throw new NoException();
         }
         else if (user.getFirst_name() == null || user.getLast_name() == null || user.getEmail() == null || user.getAvatar() == null|| user.getJob() == null) {

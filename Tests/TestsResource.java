@@ -72,16 +72,18 @@ public class TestsResource {
     }
 
     @Test
+    void TestGetInvalidColor() {
+        Resource test = new Resource(30, "rose", 2020, "#d9", "19-2020");
+        Assertions.assertEquals("#d9", test.getColor());
+    }
+
+    @Test
     void TestGetValidColor() {
         Resource test = new Resource(30, "rose", 2020, "#d98695", "19-2020");
         Assertions.assertEquals("#d98695", test.getColor());
     }
 
-    @Test
-    void TestGetInvalidColor() {
-        Resource test = new Resource(30, "rose", 2020, "#d9", "19-2020");
-        Assertions.assertEquals("#d9", test.getColor());
-    }
+
 
     //-------------Test Pantone Value---------------
     @Test
@@ -104,7 +106,7 @@ public class TestsResource {
 
     //--------------------------------------------------------------------------------------------------------------------------
 
-    //Test Sets
+    /*****************TESTS SETS*************************/
     //-------------Test Id---------------
     @Test
     void TestSetIdNull() {
@@ -143,7 +145,7 @@ public class TestsResource {
         Resource test = new Resource(30, "rose", 2020, "#d98695", "19-2020");
 
         Assertions.assertThrows(InvalidException.class,() -> {
-            test.setName("Teste dos testes dos testes do teste testado");
+            test.setName("Testedostestesdostestesdotestetestado");
         });
     }
 
@@ -236,7 +238,7 @@ public class TestsResource {
     }
 
     @Test
-    void TestSetColorMoreThen6caracteres() {
+    void TestSetColorMoreThen6caracters() {
         Resource test = new Resource(30, "rose", 2020, "#d98695", "19-2020");
 
         Assertions.assertThrows(InvalidException.class,() -> {

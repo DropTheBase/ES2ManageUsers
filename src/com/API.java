@@ -253,7 +253,7 @@ public class API {
 
             int status = connection.getResponseCode();
 
-            if(status == HttpURLConnection.HTTP_OK){ //ID 1
+            if(status == HttpURLConnection.HTTP_OK){
                 try(BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
                     String teste = new String();
                     String responseLine = null;
@@ -280,7 +280,7 @@ public class API {
                 }
             }
 
-            if (status == HttpURLConnection.HTTP_BAD_REQUEST){ //ID 4
+            if (status == HttpURLConnection.HTTP_BAD_REQUEST){
                 System.out.println("Response 400: Error");
                 Registry user = null;
                 return user;

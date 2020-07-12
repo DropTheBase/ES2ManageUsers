@@ -121,7 +121,17 @@ public class controllerApp {
 
                 int status = connection.getResponseCode();
 
-                if(status == HttpURLConnection.HTTP_CREATED){
+                if (status == HttpURLConnection.HTTP_BAD_REQUEST || newUser.getJob()==null || !newUser.getJob().matches("^[a-zA-Z]{2,25}$") ||
+                        newUser.getId()==null || newUser.getEmail()==null|| !newUser.getEmail().matches("^\\S+@\\S+$") || newUser.getEmail().length()<5 ||
+                        newUser.getEmail().length()>50 || newUser.getFirst_name()==null || !newUser.getFirst_name().matches("^[a-zA-Z]{2,25}$") ||
+                        newUser.getLast_name()==null || !newUser.getLast_name().matches("^[a-zA-Z]{2,25}$")|| newUser.getAvatar()==null ||
+                        !newUser.getAvatar().matches("^(https?:\\/\\/)?([\\w\\Q$-_+!*'(),%\\E]+\\.)+(\\w{2,63})(:\\d{1,4})?([\\w\\Q/$-_+!*'(),%\\E]+\\.?[\\w])*\\/?$")){
+
+                    System.out.println("Response 400 : Error");
+                    System.out.println("Fields incorret");
+                }
+
+                else if(status == HttpURLConnection.HTTP_CREATED){
                     try(BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
                         String teste = new String();
                         String responseLine = null;
@@ -143,10 +153,7 @@ public class controllerApp {
                         return true;
                     }
                 }
-                else if (status == HttpURLConnection.HTTP_BAD_REQUEST){
-                    System.out.println("Response 400 : Error");
-                    System.out.println("Fields incorret");
-                }
+
 
                 connection.disconnect();
 
@@ -155,6 +162,9 @@ public class controllerApp {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        else{
+            System.out.println("You need make login!");
         }
         return false;
     }
@@ -226,7 +236,9 @@ public class controllerApp {
                 e.printStackTrace();
             }
         }
-
+        else{
+            System.out.println("You need make login!");
+        }
         Registry newUser = null;
         return newUser;
     }
@@ -299,6 +311,9 @@ public class controllerApp {
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
+        }
+        else{
+            System.out.println("You need make login!");
         }
         return users_list;
     }
@@ -373,6 +388,9 @@ public class controllerApp {
                 ex.printStackTrace();
             }
         }
+        else{
+            System.out.println("You need make login!");
+        }
 
         User users = null;
         return users;
@@ -419,10 +437,10 @@ public class controllerApp {
 
                     System.out.println("\nResponse 200: Resource Details");
                     System.out.println("\tID: " + id_resource);
-                    System.out.println("\tNome: " + name);
-                    System.out.println("\tAno: " + year);
-                    System.out.println("\tCódigo de Côr: " + color);
-                    System.out.println("\tCódigo Pantone: " + pantone_value + "\n");
+                    System.out.println("\tName: " + name);
+                    System.out.println("\tYear: " + year);
+                    System.out.println("\tColor: " + color);
+                    System.out.println("\tPantone value: " + pantone_value + "\n");
 
                     Resource resource = new Resource(id_resource, name, Integer.parseInt(year), color, pantone_value);
                     return resource;
@@ -444,7 +462,9 @@ public class controllerApp {
                 ex.printStackTrace();
             }
         }
-
+        else{
+            System.out.println("You need make login!");
+        }
         Resource resource = null;
         return resource;
     }
@@ -500,7 +520,7 @@ public class controllerApp {
                         System.out.println("\tName: " + name);
                         System.out.println("\tYear: " + year);
                         System.out.println("\tColor: " + color);
-                        System.out.println("\tPaantone Value: " + pantone_value + "\n");
+                        System.out.println("\tPantone Value: " + pantone_value + "\n");
 
                         Resource resource = new Resource(id, name, Integer.parseInt(year), color, pantone_value);
                         resources_list.add(resource);
@@ -520,7 +540,9 @@ public class controllerApp {
                 ex.printStackTrace();
             }
         }
-
+        else{
+            System.out.println("You need make login!");
+        }
         return resources_list;
     }
 }

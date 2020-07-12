@@ -101,8 +101,6 @@ public class Registry {
         }
         else if (!token.matches("^[a-zA-Z0-9]{10,30}$")){
             System.out.println("This Token is Invalid!");
-        }else {
-            System.out.println("This Token is Valid!");
         }
         return token;
     }
@@ -115,8 +113,6 @@ public class Registry {
         else if (!token.matches("^[a-zA-Z0-9]{10,30}$")){
             System.out.println("This Token is Invalid!");
             throw new InvalidException();
-        }else {
-            System.out.println("This Token is Valid!");
         }
         this.token = token;
     }

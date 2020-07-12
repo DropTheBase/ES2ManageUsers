@@ -43,8 +43,8 @@ public class RegistryTests {
     //Registry Password Valid
     @Test
     void RegistryPasswordValid() {
-        Registry registry = new Registry(20, "teste@reqres.in", "teste", "kLjgPb8PWT");
-        Assertions.assertEquals("teste", registry.getPassword());
+        Registry registry = new Registry(20, "teste@reqres.in", "Teste123+=", "kLjgPb8PWT");
+        Assertions.assertEquals("Teste123+=", registry.getPassword());
     }
 
     //Registry Token null
@@ -85,10 +85,10 @@ public class RegistryTests {
     //Registry all null
     @Test
     void RegistryAllNull() {
-        Registry registry = new Registry(0, null, null, null);
+        Registry registry = new Registry(null, null, null, null);
         Assertions.assertEquals(null, registry.getToken(), registry.getPassword());
         Assertions.assertEquals(null, registry.getEmail());
-        Assertions.assertEquals(0, registry.getId());
+        Assertions.assertEquals(null, registry.getId());
 
     }
 

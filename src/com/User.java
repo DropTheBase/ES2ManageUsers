@@ -53,8 +53,9 @@ public class User {
     public Integer getId() {
         if(id==null){
             System.out.println("Your ID is NULL");
-        }else
-            System.out.println("Your ID is CORRECT");
+            return id;
+        }
+        System.out.println("Your ID is CORRECT");
         return id;
     }
     public void setId(Integer id) throws NoException, InvalidException {
@@ -74,8 +75,10 @@ public class User {
     public String getEmail() {
         if(email==null){
             System.out.println("Your EMAIL is NULL");
-        }else
-            System.out.println("Your EMAIL is CORRECT");
+            return email;
+        }
+
+        System.out.println("Your EMAIL is CORRECT");
         return email;
     }
 
