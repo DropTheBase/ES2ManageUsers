@@ -104,7 +104,7 @@ public class TestsAPI {
     }
 
     @Test
-    public void CreateUserWithoutJob() throws IOException {
+    public void CreateUserWithoutName() throws IOException {
         MateRequest matereq = new MateRequest();
         String header = "{\"name\" : \"\", \"job\" : \"leader\"}";
         int statusCode = matereq.connectionStatus("https://reqres.in/api/users", "POST", header);
@@ -112,7 +112,7 @@ public class TestsAPI {
     }
 
     @Test
-    public void CreateUserWithoutName() throws IOException {
+    public void CreateUserWithoutJob() throws IOException {
         MateRequest matereq = new MateRequest();
         String header = "{\"name\" : \"morpheus\", \"job\" : \"\"}";
         int statusCode = matereq.connectionStatus("https://reqres.in/api/users", "POST", header);

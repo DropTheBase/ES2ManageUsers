@@ -13,7 +13,7 @@ public class Stub implements FE {
     //Add Users
     public void createUser(User user) throws NoException, RepetedException{
         if (users_list == null) {
-            System.out.println("\nList doesn't exists!\n");
+            System.out.println("\nList doesn't exist!\n");
             throw new NoException();
         }
         else if (user.getId() == null) {
@@ -28,7 +28,7 @@ public class Stub implements FE {
         for (int i = 0; i < users_list.size(); i++) {
             int obj = user.getId();
             if (users_list.get(i).getId() == (obj) || users_list.get(i).getEmail().equals(user.getEmail())) {
-                System.out.println("\nUser already exists!\n");
+                System.out.println("\nUser already exist!\n");
                 throw new RepetedException();
             }
         }
@@ -39,7 +39,7 @@ public class Stub implements FE {
 
     public void addResource(Resource resource) throws NoException, RepetedException{
         if (resources_list == null) {
-            System.out.println("\nLIst doesn't exists!\n");
+            System.out.println("\nList doesn't exist!\n");
             throw new NoException();
         }
         else if (resource.getId() == null || resource.getName() == null || resource.getYear() == null || resource.getColor() == null || resource.getPantone_value() == null) {
@@ -48,7 +48,7 @@ public class Stub implements FE {
 
         for (int i = 0; i < resources_list.size(); i++) {
             if (resources_list.get(i).getId().equals(resource.getId()) || resources_list.get(i).getName().equals(resource.getName())) {
-                System.out.println("\nResource already exists!\n");
+                System.out.println("\nResource already exist!\n");
                 throw new RepetedException();
             }
         }
@@ -60,7 +60,7 @@ public class Stub implements FE {
 
     public ArrayList<User> listingUsers() throws NoException {
         if (users_list == null) {
-            System.out.println("\nLIst doesn't exists!\n");
+            System.out.println("\nList doesn't exist!\n");
             throw new NoException();
         }
 
@@ -70,7 +70,7 @@ public class Stub implements FE {
         }
 
         else {
-            System.out.println("\nThe list is:\n");
+            System.out.println("\nList returned!\n");
             return users_list;
         }
     }
@@ -94,7 +94,7 @@ public class Stub implements FE {
             }
         }
 
-        System.out.println("\nUser doesn't exists in the list!\n");
+        System.out.println("\nUser doesn't exist in the list!\n");
         return null;
     }
 
@@ -102,7 +102,7 @@ public class Stub implements FE {
 
     public ArrayList<Resource> listingResources() throws NoException {
         if (resources_list == null) {
-            System.out.println("\nLIst doesn't exists!\n");
+            System.out.println("\nList doesn't exist!\n");
             throw new NoException();
         }
 
@@ -112,7 +112,7 @@ public class Stub implements FE {
         }
 
         else {
-            System.out.println("\nThe list resources is:\n");
+            System.out.println("\nThe list resources returned\n");
             return resources_list;
         }
     }
@@ -121,7 +121,7 @@ public class Stub implements FE {
 
     public Resource consultingResource(Integer id) throws NoException, InvalidException {
         if (resources_list == null || id == null) {
-            System.out.println("\nLIst doesn't exists!\n");
+            System.out.println("\nList doesn't exist!\n");
             throw new NoException();
         }
 
@@ -131,12 +131,12 @@ public class Stub implements FE {
 
         for (int i = 0; i < resources_list.size(); i++) {
             if (resources_list.get(i).getId().equals(id)){
-                System.out.println("\nResource is :\n");
+                System.out.println("\nResource returned\n");
                 return resources_list.get(i);
             }
         }
 
-        System.out.println("\nResource doesn't exists!\n");
+        System.out.println("\nResource doesn't exist!\n");
         return null;
     }
 
@@ -218,11 +218,11 @@ public class Stub implements FE {
 // Login User
     public String loginUser(String email, String password) throws NoException, InvalidException {
         if (token_list == null) {
-            System.out.println("\nLista don't exists!\n");
+            System.out.println("\nList don't exist!\n");
             throw new NoException();
         }
         else if (registry_list == null) {
-            System.out.println("\nLista don't exists!\n");
+            System.out.println("\nList don't exist!\n");
             throw new NoException();
         }
         else  if (email == null) {

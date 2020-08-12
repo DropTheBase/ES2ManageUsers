@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -68,7 +69,7 @@ public class controllerApp {
                     stringjs = stringjs.replace("\"", "");
                     stringjs = stringjs.replace("token:", "");
 
-                    System.out.println("Response 200 : Authenticated");
+                    System.out.println("\nResponse 200 : Authenticated");
                     System.out.println("\tToken: " + stringjs);
 
                     token_list.put(email, stringjs);
@@ -77,9 +78,72 @@ public class controllerApp {
             }
 
             if (status == HttpURLConnection.HTTP_BAD_REQUEST){
-                System.out.println("Response 400 : Error");
-                System.out.println("Fields incorret");
-                stringjs = "Bad Request";
+
+                if (email.isEmpty() && password.isEmpty()){
+                    System.out.println("\nResponse 400 : Error");
+                    System.out.println("Missing Email and Password");
+                    stringjs = "Missing Email and Password";
+                }
+
+                else if (email.isEmpty() && (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$"))){
+                    System.out.println("\nResponse 400 : Error");
+                    System.out.println("Missing Email and Invalid Password");
+                    stringjs = "Missing Email and Invalid Password";
+                }
+
+                else if (!email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,})") &&
+                        (password.isEmpty())){
+
+                    System.out.println("\nResponse 400 : Error");
+                    System.out.println("Invalid Email and Missing Password");
+                    stringjs = "Invalid Email and Missing Password";
+                }
+
+                else if (email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,})") &&
+                        password.isEmpty()) {
+
+                    System.out.println("\nResponse 400 : Error");
+                    System.out.println("Missing Password");
+                    stringjs = "Missing Password";
+                }
+
+                else if ((email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,})")) &&
+                        (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$"))) {
+
+                    System.out.println("\nResponse 400 : Error");
+                    System.out.println("Invalid Password");
+                    stringjs = "Invalid Password";
+                }
+
+                else if (password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$") && email.isEmpty()) {
+
+                    System.out.println("\nResponse 400 : Error");
+                    System.out.println("Missing Email");
+                    stringjs = "Missing Email";
+                }
+
+                else if ((password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$")) &&
+                        (!email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,3})"))) {
+
+                    System.out.println("\nResponse 400 : Error");
+                    System.out.println("Invalid Email");
+                    stringjs = "Invalid Email";
+                }
+
+                else if ((!email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,3})"))  &&
+                        (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$"))){
+
+                    System.out.println("\nResponse 400 : Error");
+                    System.out.println("Invalid Email and Password");
+                    stringjs = "Invalid Email and Password";
+                }
+
+                else {
+                    System.out.println("\nResponse 400 : Error");
+                    System.out.println("Bad Connection");
+                    stringjs = "Bad Request";
+                }
+
                 return stringjs;
             }
 
@@ -95,7 +159,7 @@ public class controllerApp {
 
     //create User-------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------------------
-    public boolean createUser(User newUser, Registry user, String token){
+    public boolean createUser(String name, String job, Registry user, String token){
         if(user.getToken().equals(token)){
             URL url = null;
 
@@ -111,8 +175,7 @@ public class controllerApp {
                 connection.setInstanceFollowRedirects(false);
                 connection.connect();
 
-                String Stringinputjs = String.format("{\"first_name\" : \"%s\", \"last_name\" : \"%s\", \"job\" : \"%s\", \"id\" : \"%d\", \"createdAt\" : \"%s\"}",
-                        newUser.getFirst_name(),newUser.getLast_name(), newUser.getJob(), newUser.getId(), newUser.getCreatedAt());
+                String Stringinputjs = String.format("{\"name\" : \"%s\", \"job\" : \"%s\"}", name, job);
 
                 try(OutputStream outstream = connection.getOutputStream()) {
                     byte[] input = Stringinputjs.getBytes("utf-8");
@@ -121,17 +184,7 @@ public class controllerApp {
 
                 int status = connection.getResponseCode();
 
-                if (status == HttpURLConnection.HTTP_BAD_REQUEST || newUser.getJob()==null || !newUser.getJob().matches("^[a-zA-Z]{2,25}$") ||
-                        newUser.getId()==null || newUser.getEmail()==null|| !newUser.getEmail().matches("^\\S+@\\S+$") || newUser.getEmail().length()<5 ||
-                        newUser.getEmail().length()>50 || newUser.getFirst_name()==null || !newUser.getFirst_name().matches("^[a-zA-Z]{2,25}$") ||
-                        newUser.getLast_name()==null || !newUser.getLast_name().matches("^[a-zA-Z]{2,25}$")|| newUser.getAvatar()==null ||
-                        !newUser.getAvatar().matches("^(https?:\\/\\/)?([\\w\\Q$-_+!*'(),%\\E]+\\.)+(\\w{2,63})(:\\d{1,4})?([\\w\\Q/$-_+!*'(),%\\E]+\\.?[\\w])*\\/?$")){
-
-                    System.out.println("Response 400 : Error");
-                    System.out.println("Fields incorret");
-                }
-
-                else if(status == HttpURLConnection.HTTP_CREATED){
+                if(status == HttpURLConnection.HTTP_CREATED || name!=""){
                     try(BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
                         String teste = new String();
                         String responseLine = null;
@@ -141,19 +194,89 @@ public class controllerApp {
                             teste = responseLine.trim();
                             i++;
                         }
-                        users_list.add(newUser);
 
-                        System.out.println("Response 201: User created\n");
+                        if (name.isEmpty() && job.isEmpty()){
+                            System.out.println("\nResponse 400 : Error");
+                            System.out.println("Missing Name and Job!");
+                            return false;
+                        }
 
-                        System.out.println("\tName: " + newUser.getFirst_name() + " " + newUser.getLast_name());
-                        System.out.println("\tJob: " + newUser.getJob());
-                        System.out.println("\tID: " + newUser.getId());
-                        System.out.println("\tCreatedAt: " + newUser.getCreatedAt());
+                        else if (name.isEmpty() && (!job.matches("^[a-zA-Z]{2,25}$"))){
+                            System.out.println("\nResponse 400 : Error");
+                            System.out.println("Missing Name and Invalid Job!");
+                            return false;
+                        }
 
-                        return true;
+                        else if (!name.matches("^[A-Za-z\\s]{2,25}[\\.]{0,1}[A-Za-z\\s]{0,25}$") && (job.isEmpty())){
+                            System.out.println("\nResponse 400 : Error");
+                            System.out.println("Invalid Name and Missing Job!");
+                            return false;
+                        }
+
+                        else if (name.matches("^[A-Za-z\\s]{2,25}[\\.]{0,1}[A-Za-z\\s]{0,25}$") &&
+                                (job.isEmpty())){
+
+                            System.out.println("\nResponse 400 : Error");
+                            System.out.println("Missing Job!");
+                            return false;
+                        }
+
+                        else if (name.matches("^[A-Za-z\\s]{2,25}[\\.]{0,1}[A-Za-z\\s]{0,25}$") &&
+                                (!job.matches("^[a-zA-Z]{2,25}$"))){
+
+                            System.out.println("\nResponse 400 : Error");
+                            System.out.println("Invalid Job!");
+                            return false;
+                        }
+
+                        else if (job.matches("^[a-zA-Z]{2,25}$") && (name.isEmpty())){
+
+                            System.out.println("\nResponse 400 : Error");
+                            System.out.println("Missing Name!");
+                            return false;
+                        }
+
+                        else if (job.matches("^[a-zA-Z]{2,25}$") &&
+                                (!name.matches("^[A-Za-z\\s]{2,25}[\\.]{0,1}[A-Za-z\\s]{0,25}$"))){
+
+                            System.out.println("\nResponse 400 : Error");
+                            System.out.println("Invalid Name!");
+                            return false;
+                        }
+
+                        else if (!name.matches("^[A-Za-z\\s]{2,25}[\\.]{0,1}[A-Za-z\\s]{0,25}$") &&
+                                (!job.matches("^[a-zA-Z]{2,25}$"))){
+
+                            System.out.println("\nResponse 400 : Error");
+                            System.out.println("Invalid Name and Job!");
+                            return false;
+                        }
+
+                        else{
+                            teste = teste.replace("{", "");
+                            teste = teste.replace("}", "");
+                            teste = teste.replace("\"", "");
+                            teste = teste.replace("id:", "");
+                            teste = teste.replace("CreatedAt:", "");
+                            String[] data = teste.split(",");
+
+                            System.out.println("\nResponse 201: User created");
+                            System.out.println("\tName: " + name);
+                            System.out.println("\tJob: " + job);
+                            System.out.println("\tID: " + data[2]);
+                            System.out.println("\tCreatedAt: " + LocalDateTime.now());
+
+                            return true;
+                        }
                     }
                 }
 
+                else if (status == HttpURLConnection.HTTP_BAD_REQUEST){
+
+                    System.out.println("Response 400 : Error");
+                    System.out.println("Fields incorret");
+                    return false;
+                }
 
                 connection.disconnect();
 
@@ -223,7 +346,83 @@ public class controllerApp {
                 }
 
                 if (status == HttpURLConnection.HTTP_BAD_REQUEST){
+
+                    if (email.isEmpty() && password.isEmpty()){
+                        System.out.println("\nResponse 400 : Error");
+                        System.out.println("Missing Email and Password");
+
+                        Registry newUser = null;
+                        return newUser;
+                    }
+
+                    else if (email.isEmpty() && (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$"))){
+                        System.out.println("\nResponse 400 : Error");
+                        System.out.println("Missing Email and Invalid Password");
+
+                        Registry newUser = null;
+                        return newUser;
+                    }
+
+                    else if (!email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,})") &&
+                            (password.isEmpty())){
+
+                        System.out.println("\nResponse 400 : Error");
+                        System.out.println("Invalid Email and Missing Password");
+
+                        Registry newUser = null;
+                        return newUser;
+                    }
+
+                    else if (email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,})") &&
+                            password.isEmpty()) {
+
+                        System.out.println("\nResponse 400 : Error");
+                        System.out.println("Missing Password");
+
+                        Registry newUser = null;
+                        return newUser;
+                    }
+
+                    else if ((email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,})")) &&
+                            (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$"))) {
+
+                        System.out.println("\nResponse 400 : Error");
+                        System.out.println("Invalid Password");
+
+                        Registry newUser = null;
+                        return newUser;
+                    }
+
+                    else if (password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$") && email.isEmpty()) {
+
+                        System.out.println("\nResponse 400 : Error");
+                        System.out.println("Missing Email");
+
+                        Registry newUser = null;
+                        return newUser;
+                    }
+
+                    else if ((password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$")) &&
+                            (!email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,3})"))) {
+
+                        System.out.println("\nResponse 400 : Error");
+                        System.out.println("Invalid Email");
+
+                        Registry newUser = null;
+                        return newUser;
+                    }
+
+                    else if ((!email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,3})"))  &&
+                            (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$"))){
+
+                        System.out.println("\nResponse 400 : Error");
+                        System.out.println("Invalid Email and Password");
+                        Registry newUser = null;
+                        return newUser;
+                    }
+
                     System.out.println("\nResponse 400: Error");
+                    System.out.println("Email and Password corrects, but exist any problem");
                     Registry newUser = null;
                     return newUser;
                 }
@@ -237,7 +436,7 @@ public class controllerApp {
             }
         }
         else{
-            System.out.println("You need make login!");
+            System.out.println("\nYou need make login!");
         }
         Registry newUser = null;
         return newUser;

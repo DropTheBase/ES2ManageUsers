@@ -215,7 +215,7 @@ public class API {
                     System.out.println("\tName: " + name);
                     System.out.println("\tJob: " + job);
                     System.out.println("\tID: " + data[2]);
-                    System.out.println("\tCreatedAt: " + createdAt);
+                    System.out.println("\tCreatedAt: ");
                 }
             }
 

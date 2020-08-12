@@ -17,29 +17,15 @@ public class mainCreateUser {
 
         Scanner myObj = new Scanner(System.in);
 
-        int idCounter = 13;
-        int id = idCounter++;
-        String first_name;
+        String name;
         String job;
-        String last_name;
-        String avatar;
-        String email;
-        Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 
-        System.out.println("\nEnter Email:");
-        email = myObj.nextLine();
-        System.out.println("Enter first name:");
-        first_name = myObj.nextLine();
-        System.out.println("Enter last name:");
-        last_name = myObj.nextLine();
+        System.out.println("\nEnter name:");
+        name = myObj.nextLine();
         System.out.println("Enter job:");
         job = myObj.nextLine();
-        System.out.println("Enter Avatar:");
-        avatar = myObj.nextLine();
-        System.out.println("\n");
 
-        User newUser = new User(id, email, first_name, last_name, avatar, job, createdAt);
-        containerapp.createUser(newUser, admin, token);
+        containerapp.createUser(name, job, admin, token);
 
     }
 

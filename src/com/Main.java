@@ -17,7 +17,7 @@ public class Main {
             System.out.println("                  |     5 - List Resource                  |");
             System.out.println("                  |     6 - Search User                    |");
             System.out.println("                  |     7 - Search Resource                |");
-            System.out.println("                  |     8 - Functionalities Without Login  |");
+            //System.out.println("                  |     8 - Functionalities Without Login  |");
             System.out.println("                  |     0 - Close                          |");
             System.out.println("                  ==========================================\n");
 
@@ -46,9 +46,6 @@ public class Main {
                 case 7:
                     mainResourceDetail.main(args);
                     break;
-                case 8:
-                    main2(args);
-                    break;
                 case 0:
                     break;
                 default:
@@ -59,7 +56,7 @@ public class Main {
 
     }
 
-    public static void main2(String[] args) {
+    /*public static void main2(String[] args) {
         int opcao = 0;
         Scanner myObj = new Scanner(System.in);
         do {
@@ -109,5 +106,5 @@ public class Main {
             }
         } while (opcao != 0);
 
-    }
+    }*/
 }
